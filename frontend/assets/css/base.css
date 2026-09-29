@@ -1,0 +1,290 @@
+﻿/* ============================================================
+ * base.css
+ * ------------------------------------------------------------
+ * Responsabilidad: fundamentos visuales de la app.
+ *  - Reset
+ *  - Variables (design tokens)
+ *  - Tipografía base
+ *  - Utilidades mínimas
+ *
+ * No contiene componentes ni layout.
+ * ============================================================ */
+
+
+/* ============================================================
+ * 1. RESET
+ * ============================================================ */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;   /* Evita zoom automático en iOS */
+    text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent; /* Sin highlight azul al tocar en móvil */
+}
+
+body {
+    min-height: 100vh;
+    min-height: 100dvh; /* dvh maneja mejor la barra de móviles */
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img,
+picture,
+svg,
+video {
+    display: block;
+    max-width: 100%;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style: none;
+}
+
+
+/* ============================================================
+ * 2. VARIABLES (Design Tokens)
+ * ============================================================ */
+
+:root {
+
+    /* ---------- Colores: marca HVAC ---------- */
+    --color-primary:        #0369a1;   /* Azul HVAC profundo */
+    --color-primary-dark:   #075985;
+    --color-primary-light:  #0ea5e9;
+    --color-primary-soft:   #e0f2fe;   /* Fondo de acentos suaves */
+
+    --color-accent:         #f97316;   /* Naranja técnico */
+    --color-accent-dark:    #ea580c;
+    --color-accent-soft:    #ffedd5;
+
+    /* ---------- Colores: superficies y texto ---------- */
+    --color-bg:             #f1f5f9;   /* Fondo general */
+    --color-surface:        #ffffff;   /* Cards, formularios */
+    --color-surface-alt:    #f8fafc;   /* Superficies alternas */
+    --color-border:         #e2e8f0;
+    --color-border-strong:  #cbd5e1;
+
+    --color-text:           #0f172a;   /* Texto principal */
+    --color-text-muted:     #64748b;   /* Texto secundario */
+    --color-text-inverse:   #ffffff;
+
+    /* ---------- Estados ---------- */
+    --color-success:        #16a34a;
+    --color-success-soft:   #dcfce7;
+    --color-danger:         #dc2626;
+    --color-danger-soft:    #fee2e2;
+    --color-warning:        #d97706;
+    --color-warning-soft:   #fef3c7;
+
+    /* ---------- Tipografía ---------- */
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
+                 "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas,
+                 "Liberation Mono", monospace;
+
+    --fs-xs:   0.75rem;   /* 12px */
+    --fs-sm:   0.875rem;  /* 14px */
+    --fs-base: 1rem;      /* 16px — mínimo para evitar zoom en iOS */
+    --fs-lg:   1.125rem;  /* 18px */
+    --fs-xl:   1.25rem;   /* 20px */
+    --fs-2xl:  1.5rem;    /* 24px */
+    --fs-3xl:  1.875rem;  /* 30px */
+
+    --fw-normal:   400;
+    --fw-medium:   500;
+    --fw-semibold: 600;
+    --fw-bold:     700;
+
+    --lh-tight: 1.25;
+    --lh-base:  1.5;
+    --lh-loose: 1.7;
+
+    /* ---------- Espaciados (escala 4px) ---------- */
+    --space-1:  0.25rem;   /* 4px  */
+    --space-2:  0.5rem;    /* 8px  */
+    --space-3:  0.75rem;   /* 12px */
+    --space-4:  1rem;      /* 16px */
+    --space-5:  1.25rem;   /* 20px */
+    --space-6:  1.5rem;    /* 24px */
+    --space-8:  2rem;      /* 32px */
+    --space-10: 2.5rem;    /* 40px */
+    --space-12: 3rem;      /* 48px */
+
+    /* ---------- Radios ---------- */
+    --radius-sm: 6px;
+    --radius:    10px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --radius-pill: 999px;
+
+    /* ---------- Sombras ---------- */
+    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+    --shadow:    0 2px 8px -2px rgba(15, 23, 42, 0.08),
+                 0 4px 12px -4px rgba(15, 23, 42, 0.06);
+    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.10),
+                 0 8px 24px -6px rgba(15, 23, 42, 0.08);
+    --shadow-lg: 0 10px 30px -10px rgba(15, 23, 42, 0.18);
+
+    /* ---------- Transiciones ---------- */
+    --transition-fast: 120ms ease;
+    --transition:      200ms ease;
+    --transition-slow: 320ms ease;
+
+    /* ---------- Layout ---------- */
+    --container-max: 720px;
+    --header-height: 64px;
+}
+
+
+/* ============================================================
+ * 3. TIPOGRAFÍA BASE
+ * ============================================================ */
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--fs-base);
+    line-height: var(--lh-base);
+    color: var(--color-text);
+    background-color: var(--color-bg);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-tight);
+    color: var(--color-text);
+    letter-spacing: -0.01em;
+}
+
+h1 { font-size: var(--fs-3xl); }
+h2 { font-size: var(--fs-2xl); }
+h3 { font-size: var(--fs-xl); }
+h4 { font-size: var(--fs-lg); }
+
+p {
+    line-height: var(--lh-base);
+}
+
+strong {
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+}
+
+small {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+}
+
+code, pre {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+}
+
+
+/* ============================================================
+ * 4. FOCO / ACCESIBILIDAD
+ * ============================================================ */
+
+:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+}
+
+/* Desactiva outline por defecto, deja solo el de :focus-visible */
+:focus {
+    outline: none;
+}
+
+
+/* ============================================================
+ * 5. UTILIDADES MÍNIMAS
+ * ============================================================ */
+
+.hidden          { display: none !important; }
+.text-muted      { color: var(--color-text-muted); }
+.text-center     { text-align: center; }
+.text-sm         { font-size: var(--fs-sm); }
+.text-xs         { font-size: var(--fs-xs); }
+.font-medium     { font-weight: var(--fw-medium); }
+.font-semibold   { font-weight: var(--fw-semibold); }
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+
+/* ============================================================
+ * 6. SCROLLBAR SUTIL (WebKit)
+ * ============================================================ */
+
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    border: 2px solid var(--color-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--color-text-muted);
+}
+
+
+/* ============================================================
+ * 7. PREFERENCIAS DEL USUARIO
+ * ============================================================ */
+
+/* Respeta "reducir movimiento" del sistema operativo */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

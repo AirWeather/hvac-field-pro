@@ -1,0 +1,706 @@
+﻿/* ============================================================
+ * components.css
+ * ------------------------------------------------------------
+ * Responsabilidad: estilos de componentes visuales reutilizables.
+ *  - Botones (primario, secundario, ghost, block, lg, sm)
+ *  - Campos de formulario (input, textarea, label, hint)
+ *  - Input con ícono
+ *  - Mensajes (error, éxito)
+ *  - Spinner
+ *  - Icon badge
+ *  - File drop / file list
+ *  - Listas
+ * ============================================================ */
+
+
+/* ============================================================
+ * 1. BOTONES
+ * ============================================================ */
+
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: 0.75rem 1.25rem;
+    min-height: 44px; /* Accesibilidad táctil */
+    border: 1px solid transparent;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    line-height: 1;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast),
+                border-color var(--transition-fast),
+                box-shadow var(--transition-fast),
+                transform var(--transition-fast);
+}
+
+.btn svg {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+}
+
+.btn:active {
+    transform: translateY(1px);
+}
+
+.btn:disabled,
+.btn[disabled] {
+    opacity: 0.55;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Variantes de color --- */
+
+.btn-primary {
+    background: var(--color-primary);
+    color: var(--color-text-inverse);
+    box-shadow: 0 1px 2px rgba(3, 105, 161, 0.25);
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--color-primary-dark);
+    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25);
+}
+
+.btn-secondary {
+    background: var(--color-surface);
+    color: var(--color-text);
+    border-color: var(--color-border-strong);
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--color-surface-alt);
+    border-color: var(--color-text-muted);
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--color-text-inverse);
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.btn-ghost:hover:not(:disabled) {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.btn-danger {
+    background: var(--color-danger);
+    color: var(--color-text-inverse);
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #b91c1c;
+}
+
+/* --- Tamaños --- */
+
+.btn-sm {
+    padding: 0.5rem 0.85rem;
+    min-height: 36px;
+    font-size: var(--fs-sm);
+}
+
+.btn-sm svg {
+    width: 16px;
+    height: 16px;
+}
+
+.btn-lg {
+    padding: 1rem 1.5rem;
+    min-height: 56px;
+    font-size: var(--fs-lg);
+}
+
+.btn-lg svg {
+    width: 22px;
+    height: 22px;
+}
+
+/* --- Modificadores --- */
+
+.btn-block {
+    display: flex;
+    width: 100%;
+}
+
+
+/* ============================================================
+ * 2. FORMULARIOS
+ * ============================================================ */
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-4);
+}
+
+.field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.field-label {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    letter-spacing: -0.005em;
+}
+
+.field-hint {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    line-height: var(--lh-base);
+}
+
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+input[type="tel"],
+input[type="url"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.75rem 0.9rem;
+    min-height: 48px;
+    font-family: inherit;
+    font-size: var(--fs-base); /* ≥16px evita zoom en iOS */
+    color: var(--color-text);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius);
+    transition: border-color var(--transition-fast),
+                box-shadow var(--transition-fast);
+    appearance: none;
+}
+
+textarea {
+    min-height: auto;
+    line-height: var(--lh-base);
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: var(--color-text-muted);
+    opacity: 0.75;
+}
+
+input:hover,
+textarea:hover,
+select:hover {
+    border-color: var(--color-text-muted);
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.15);
+}
+
+input:invalid:not(:placeholder-shown),
+textarea:invalid:not(:placeholder-shown) {
+    border-color: var(--color-danger);
+}
+
+
+/* ============================================================
+ * 3. INPUT CON ÍCONO
+ * ============================================================ */
+
+.input-wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 0.85rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-text-muted);
+    pointer-events: none;
+}
+
+.input-wrap input {
+    padding-left: 2.5rem;
+}
+
+.input-wrap:focus-within .input-icon {
+    color: var(--color-primary);
+}
+
+
+/* ============================================================
+ * 4. MENSAJES
+ * ============================================================ */
+
+.msg {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-2);
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius);
+    font-size: var(--fs-sm);
+    line-height: var(--lh-base);
+    border: 1px solid transparent;
+}
+
+.msg[hidden] {
+    display: none !important;
+}
+
+.msg-error {
+    background: var(--color-danger-soft);
+    color: #7f1d1d;
+    border-color: #fecaca;
+}
+
+.msg-success {
+    background: var(--color-success-soft);
+    color: #14532d;
+    border-color: #bbf7d0;
+}
+
+.msg-info {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+    border-color: #bae6fd;
+}
+
+
+/* ============================================================
+ * 5. SPINNER
+ * ============================================================ */
+
+.spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.loading-text {
+    margin-top: var(--space-3);
+    color: var(--color-text-muted);
+    font-size: var(--fs-sm);
+}
+
+
+/* ============================================================
+ * 6. ICON BADGE (circular, para login y otros)
+ * ============================================================ */
+
+.icon-badge {
+    display: grid;
+    place-items: center;
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radius-xl);
+}
+
+.icon-badge-primary {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+
+/* ============================================================
+ * 7. FILE DROP (subida de archivos)
+ * ============================================================ */
+
+.file-drop {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    border: 2px dashed var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-surface-alt);
+    transition: border-color var(--transition-fast),
+                background-color var(--transition-fast);
+    overflow: hidden;
+}
+
+.file-drop:hover,
+.file-drop:focus-within {
+    border-color: var(--color-primary);
+    background: var(--color-primary-soft);
+}
+
+.file-drop-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    padding: var(--space-6) var(--space-4);
+    text-align: center;
+    cursor: pointer;
+}
+
+.file-drop-icon {
+    color: var(--color-primary);
+    margin-bottom: var(--space-2);
+}
+
+.file-drop-title {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+}
+
+.file-drop-hint {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    line-height: var(--lh-base);
+}
+
+/* --- Lista de archivos seleccionados --- */
+
+.file-list {
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid var(--color-border);
+    background: var(--color-surface);
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.file-list[hidden] {
+    display: none !important;
+}
+
+.file-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-border);
+    font-size: var(--fs-sm);
+}
+
+.file-item:last-child {
+    border-bottom: none;
+}
+
+.file-item-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radius-sm);
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+.file-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.file-item-name {
+    font-weight: var(--fw-medium);
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-item-size {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+}
+
+.file-item-remove {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-muted);
+    background: transparent;
+    transition: background-color var(--transition-fast),
+                color var(--transition-fast);
+    cursor: pointer;
+}
+
+.file-item-remove:hover {
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+}
+
+
+/* ============================================================
+ * 8. LISTAS GENÉRICAS
+ * ============================================================ */
+
+.list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.list-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+}
+
+
+/* ============================================================
+ * 9. DIVISORES Y SEPARADORES
+ * ============================================================ */
+
+.divider {
+    height: 1px;
+    background: var(--color-border);
+    border: none;
+    margin: var(--space-4) 0;
+}
+
+
+/* ============================================================
+ * 10. BADGES / ETIQUETAS
+ * ============================================================ */
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: 0.2rem 0.6rem;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    line-height: 1.4;
+}
+
+.badge-success {
+    background: var(--color-success-soft);
+    color: #14532d;
+}
+
+.badge-danger {
+    background: var(--color-danger-soft);
+    color: #7f1d1d;
+}
+
+.badge-warning {
+    background: var(--color-warning-soft);
+    color: #78350f;
+}
+
+.badge-info {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+}
+
+/* ============================================================
+ * MAPA Y SUPERVISIÓN
+ * ============================================================ */
+
+.card-summary {
+    padding: var(--space-4);
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-3);
+    text-align: center;
+}
+
+.summary-item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.summary-value {
+    font-size: var(--fs-2xl);
+    font-weight: var(--fw-bold);
+    color: var(--color-text);
+    line-height: 1;
+}
+
+.summary-value-success { color: var(--color-success); }
+.summary-value-info    { color: var(--color-primary); }
+.summary-value-muted   { color: var(--color-text-muted); }
+
+.summary-label {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.summary-updated {
+    margin-top: var(--space-3);
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    text-align: center;
+}
+
+.card-map {
+    padding: 0;
+    overflow: hidden;
+}
+
+.map-container {
+    width: 100%;
+    height: 320px;
+    background: var(--color-surface-alt);
+}
+
+@media (min-width: 640px) {
+    .map-container {
+        height: 480px;
+    }
+}
+
+.tecnicos-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-4);
+}
+
+.tecnicos-title {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-semibold);
+}
+
+.tecnicos-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.tecnico-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    background: var(--color-surface);
+    transition: background-color var(--transition-fast);
+}
+
+.tecnico-item:hover {
+    background: var(--color-surface-alt);
+}
+
+.tecnico-item-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius);
+    font-size: 20px;
+}
+
+.tecnico-item-icon.estado-trabajando {
+    background: var(--color-success-soft);
+    color: var(--color-success);
+}
+
+.tecnico-item-icon.estado-termino {
+    background: var(--color-primary-soft);
+    color: var(--color-primary);
+}
+
+.tecnico-item-icon.estado-sin_checar {
+    background: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+.tecnico-item-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.tecnico-item-nombre {
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.tecnico-item-info {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    margin-top: 2px;
+}
+
+.tecnico-item-badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: var(--radius-pill);
+    font-size: var(--fs-xs);
+    font-weight: var(--fw-semibold);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.badge-trabajando {
+    background: var(--color-success-soft);
+    color: #14532d;
+}
+
+.badge-termino {
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
+}
+
+.badge-sin_checar {
+    background: var(--color-border);
+    color: var(--color-text-muted);
+}
+
+/* Pines personalizados del mapa */
+.marker-pin {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.marker-pin.estado-trabajando { background: var(--color-success); }
+.marker-pin.estado-termino    { background: var(--color-primary); }
+.marker-pin.estado-sin_checar { background: var(--color-text-muted); }

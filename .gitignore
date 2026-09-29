@@ -1,0 +1,21 @@
+﻿# OS
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Node (por si acaso)
+node_modules/
+
+# Scripts de desarrollo local (NO subir)
+server.ps1
+deploy.ps1
+
+# Apps Script local (por si usas clasp después)
+.clasp.json
+appsscript.json
+
+# Logs
+*.log

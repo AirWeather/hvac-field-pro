@@ -1,0 +1,386 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0369a1">
+    <meta name="description" content="App profesional para técnicos de aire acondicionado: registro de asistencia y evidencias en campo.">
+    <title>HVAC Field Pro — Técnicos</title>
+
+    <!-- Favicon inline (SVG data URI) -->
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>❄️</text></svg>">
+
+    <!-- Leaflet (mapa) -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossorigin="">
+
+    <!-- Estilos -->
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/layout.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+</head>
+<body>
+
+    <div id="app">
+
+        <header class="app-header">
+            <div class="app-brand">
+                <div class="app-logo" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+                        <circle cx="12" cy="12" r="3"/>
+                    </svg>
+                </div>
+                <div class="app-brand-text">
+                    <span class="app-name">HVAC Field Pro</span>
+                    <span class="app-tag">Portal Técnico</span>
+                </div>
+            </div>
+
+            <button id="btn-logout" class="btn btn-ghost btn-sm" hidden aria-label="Cerrar sesión">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"
+                     stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                    <polyline points="16 17 21 12 16 7"/>
+                    <line x1="21" y1="12" x2="9" y2="12"/>
+                </svg>
+                <span>Salir</span>
+            </button>
+        </header>
+
+        <main id="views">
+
+            <!-- Vista: Loading -->
+            <section id="view-loading" class="view view-centered" hidden>
+                <div class="spinner" role="status" aria-label="Cargando"></div>
+                <p class="loading-text">Preparando todo…</p>
+            </section>
+
+            <!-- Vista: Login -->
+            <section id="view-login" class="view view-centered" hidden>
+                <div class="card card-auth">
+                    <div class="card-header">
+                        <div class="icon-badge icon-badge-primary" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="28" height="28" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 2v20M2 12h20M4.93 4.93l14.14 14.14M19.07 4.93L4.93 19.07"/>
+                            </svg>
+                        </div>
+                        <h2 class="card-title">Bienvenido técnico</h2>
+                        <p class="card-subtitle">Ingresa con tus credenciales para comenzar tu jornada.</p>
+                    </div>
+
+                    <form id="form-login" class="form" novalidate>
+                        <label class="field">
+                            <span class="field-label">Correo electrónico</span>
+                            <div class="input-wrap">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18"
+                                     fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                                    <polyline points="22,6 12,13 2,6"/>
+                                </svg>
+                                <input type="email" name="email" autocomplete="email"
+                                       inputmode="email" placeholder="tecnico@empresa.com" required>
+                            </div>
+                        </label>
+
+                        <label class="field">
+                            <span class="field-label">Contraseña</span>
+                            <div class="input-wrap">
+                                <svg class="input-icon" viewBox="0 0 24 24" width="18" height="18"
+                                     fill="none" stroke="currentColor" stroke-width="2"
+                                     stroke-linecap="round" stroke-linejoin="round">
+                                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                                    <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                                </svg>
+                                <input type="password" name="password" autocomplete="current-password"
+                                       placeholder="••••••••" required>
+                            </div>
+                        </label>
+
+                        <button type="submit" class="btn btn-primary btn-block btn-lg">Iniciar sesión</button>
+
+                        <p id="login-error" class="msg msg-error" hidden></p>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Vista: Dashboard -->
+            <section id="view-dashboard" class="view" hidden>
+                <div class="page-head">
+                    <h2 class="page-title">Panel del técnico</h2>
+                    <p class="page-subtitle">
+                        Hola, <strong id="nombre-tecnico">—</strong>. ¿Qué necesitas hacer hoy?
+                    </p>
+                </div>
+
+                <nav class="menu-grid">
+                    <a href="#/checador" class="menu-card">
+                        <div class="menu-card-icon menu-card-icon-primary" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <polyline points="12 6 12 12 16 14"/>
+                            </svg>
+                        </div>
+                        <div class="menu-card-body">
+                            <h3 class="menu-card-title">Checador</h3>
+                            <p class="menu-card-text">Registra tu entrada y salida del día.</p>
+                        </div>
+                        <svg class="menu-card-arrow" viewBox="0 0 24 24" width="20" height="20"
+                             fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </a>
+
+                    <a href="#/evidencias" class="menu-card">
+                        <div class="menu-card-icon menu-card-icon-accent" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                <circle cx="12" cy="13" r="4"/>
+                            </svg>
+                        </div>
+                        <div class="menu-card-body">
+                            <h3 class="menu-card-title">Evidencias</h3>
+                            <p class="menu-card-text">Sube fotos y documentos del trabajo.</p>
+                        </div>
+                        <svg class="menu-card-arrow" viewBox="0 0 24 24" width="20" height="20"
+                             fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </a>
+
+                    <!-- Card: Supervisión (solo admin) -->
+                    <a href="#/supervisor" id="menu-supervisor" class="menu-card" hidden>
+                        <div class="menu-card-icon menu-card-icon-accent" aria-hidden="true">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                                <circle cx="12" cy="10" r="3"/>
+                            </svg>
+                        </div>
+                        <div class="menu-card-body">
+                            <h3 class="menu-card-title">Supervisión</h3>
+                            <p class="menu-card-text">Ver ubicación de todos los técnicos.</p>
+                        </div>
+                        <svg class="menu-card-arrow" viewBox="0 0 24 24" width="20" height="20"
+                             fill="none" stroke="currentColor" stroke-width="2"
+                             stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"/>
+                        </svg>
+                    </a>
+                </nav>
+            </section>
+
+            <!-- Vista: Checador -->
+            <section id="view-checador" class="view" hidden>
+                <div class="page-head">
+                    <h2 class="page-title">Registro de asistencia</h2>
+                    <p class="page-subtitle">Marca tu entrada al iniciar y tu salida al terminar.</p>
+                </div>
+
+                <div class="card">
+                    <div class="actions-stack">
+                        <button id="btn-checkin" class="btn btn-primary btn-block btn-lg">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"/>
+                                <polyline points="10 17 15 12 10 7"/>
+                                <line x1="15" y1="12" x2="3" y2="12"/>
+                            </svg>
+                            <span>Registrar entrada</span>
+                        </button>
+
+                        <button id="btn-checkout" class="btn btn-secondary btn-block btn-lg">
+                            <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                                <polyline points="16 17 21 12 16 7"/>
+                                <line x1="21" y1="12" x2="9" y2="12"/>
+                            </svg>
+                            <span>Registrar salida</span>
+                        </button>
+                    </div>
+
+                    <p id="checador-msg" class="msg" hidden></p>
+                </div>
+
+                <a href="#/dashboard" class="link-back">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span>Volver al panel</span>
+                </a>
+            </section>
+
+            <!-- Vista: Evidencias -->
+            <section id="view-evidencias" class="view" hidden>
+                <div class="page-head">
+                    <h2 class="page-title">Subir evidencia</h2>
+                    <p class="page-subtitle">Adjunta fotos o documentos del servicio realizado.</p>
+                </div>
+
+                <form id="form-evidencia" class="form card">
+                    <label class="field">
+                        <span class="field-label">Archivos (máx. 5)</span>
+
+                        <div class="file-drop" id="file-drop">
+                            <input type="file" name="archivos" id="input-archivos"
+                                   multiple hidden required>
+
+                            <div class="file-drop-inner" id="file-drop-inner">
+                                <div class="file-drop-icon" aria-hidden="true">
+                                    <svg viewBox="0 0 24 24" width="36" height="36" fill="none"
+                                         stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                                        <polyline points="17 8 12 3 7 8"/>
+                                        <line x1="12" y1="3" x2="12" y2="15"/>
+                                    </svg>
+                                </div>
+                                <p class="file-drop-title">Toca para seleccionar archivos</p>
+                                <p class="file-drop-hint">
+                                    Imágenes (jpg, png, webp, heic) o documentos (pdf, docx, xlsx).<br>
+                                    Máx. 10 MB por archivo.
+                                </p>
+                            </div>
+
+                            <ul class="file-list" id="file-list" hidden></ul>
+                        </div>
+                    </label>
+
+                    <label class="field">
+                        <span class="field-label">Comentario (opcional)</span>
+                        <textarea name="comentario" rows="3" maxlength="500"
+                                  placeholder="Ej. Mantenimiento preventivo a minisplit, limpieza de filtros y revisión de gas."></textarea>
+                    </label>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none"
+                             stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                            <polyline points="22 4 12 14.01 9 11.01"/>
+                        </svg>
+                        <span>Enviar evidencia</span>
+                    </button>
+
+                    <p id="evidencia-msg" class="msg" hidden></p>
+                </form>
+
+                <a href="#/dashboard" class="link-back">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span>Volver al panel</span>
+                </a>
+            </section>
+
+            <!-- Vista: Supervisor (admin) -->
+            <section id="view-supervisor" class="view" hidden>
+                <div class="page-head">
+                    <h2 class="page-title">Supervisión de técnicos</h2>
+                    <p class="page-subtitle">Estado actual del equipo. Se actualiza cada minuto.</p>
+                </div>
+
+                <div class="card card-summary">
+                    <div class="summary-grid">
+                        <div class="summary-item">
+                            <span class="summary-value" id="sup-total">0</span>
+                            <span class="summary-label">Total</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-value summary-value-success" id="sup-trabajando">0</span>
+                            <span class="summary-label">Trabajando</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-value summary-value-info" id="sup-termino">0</span>
+                            <span class="summary-label">Terminaron</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-value summary-value-muted" id="sup-sin_checar">0</span>
+                            <span class="summary-label">Sin checar</span>
+                        </div>
+                    </div>
+                    <p class="summary-updated">
+                        Actualizado: <span id="sup-actualizado">—</span>
+                    </p>
+                </div>
+
+                <div class="card card-map">
+                    <div id="map-supervisor" class="map-container"></div>
+                </div>
+
+                <div class="card">
+                    <div class="tecnicos-header">
+                        <h3 class="tecnicos-title">Técnicos</h3>
+                        <button id="btn-refresh-sup" class="btn btn-secondary btn-sm">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="23 4 23 10 17 10"/>
+                                <polyline points="1 20 1 14 7 14"/>
+                                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                            </svg>
+                            <span>Refrescar</span>
+                        </button>
+                    </div>
+                    <ul id="lista-tecnicos" class="tecnicos-list"></ul>
+                    <p id="supervisor-msg" class="msg" hidden></p>
+                </div>
+
+                <a href="#/dashboard" class="link-back">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none"
+                         stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"/>
+                        <polyline points="12 19 5 12 12 5"/>
+                    </svg>
+                    <span>Volver al panel</span>
+                </a>
+            </section>
+
+        </main>
+
+        <footer class="app-footer">
+            <span>HVAC Field Pro · v0.1.0</span>
+        </footer>
+    </div>
+
+    <!-- Leaflet (mapa) -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+            integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+            crossorigin=""></script>
+
+    <!-- 1. Configuración -->
+    <script src="assets/js/config.js"></script>
+
+    <!-- 2. Utilidades base -->
+    <script src="assets/js/storage.js"></script>
+    <script src="assets/js/validators.js"></script>
+    <script src="assets/js/files.js"></script>
+
+    <!-- 3. Servicios -->
+    <script src="assets/js/api.mock.js"></script>
+    <script src="assets/js/api.js"></script>
+
+    <!-- 4. Dominio -->
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/asistencias.js"></script>
+    <script src="assets/js/evidencias.js"></script>
+    <script src="assets/js/supervisor.js"></script>
+
+    <!-- 5. Presentación -->
+    <script src="assets/js/ui.js"></script>
+    <script src="assets/js/router.js"></script>
+
+    <!-- 6. Bootstrap -->
+    <script src="assets/js/app.js"></script>
+</body>
+</html>
