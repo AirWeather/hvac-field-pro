@@ -9,6 +9,8 @@
  *  - Grids de menú
  *  - Cards base
  *  - Stack de acciones
+ *
+ * Paleta: ROJO + BLANCO
  * ============================================================ */
 
 
@@ -28,7 +30,7 @@
 
 
 /* ============================================================
- * 2. HEADER
+ * 2. HEADER · ROJO
  * ============================================================ */
 
 .app-header {
@@ -41,7 +43,7 @@
     gap: var(--space-3);
     height: var(--header-height);
     padding: 0 var(--space-4);
-    background: linear-gradient(135deg, #0369a1 0%, #075985 100%);
+    background: linear-gradient(135deg, #DC2626 0%, #B91C1C 100%);
     color: var(--color-text-inverse);
     box-shadow: var(--shadow-md);
 }
@@ -60,7 +62,7 @@
     width: 40px;
     height: 40px;
     border-radius: var(--radius);
-    background: rgba(255, 255, 255, 0.12);
+    background: rgba(255, 255, 255, 0.15);
     color: #ffffff;
 }
 
@@ -85,7 +87,7 @@
 
 .app-tag {
     font-size: var(--fs-xs);
-    color: rgba(255, 255, 255, 0.75);
+    color: rgba(255, 255, 255, 0.80);
     text-transform: uppercase;
     letter-spacing: 0.06em;
     font-weight: var(--fw-medium);
@@ -118,7 +120,6 @@
     min-height: 60vh;
 }
 
-/* Encabezado de página (título + subtítulo) */
 .page-head {
     display: flex;
     flex-direction: column;
@@ -206,14 +207,16 @@
     border-radius: var(--radius);
 }
 
+/* Ícono principal: rojo */
 .menu-card-icon-primary {
     background: var(--color-primary-soft);
     color: var(--color-primary);
 }
 
+/* Ícono acento: rojo oscuro */
 .menu-card-icon-accent {
-    background: var(--color-accent-soft);
-    color: var(--color-accent-dark);
+    background: var(--color-primary-soft);
+    color: var(--color-primary-dark);
 }
 
 .menu-card-body {

@@ -81,21 +81,23 @@ const Api = {
     /**
      * Registra entrada.
      * @param {string} token
-     * @param {Object|null} ubicacion  { lat, lng, precision }
+     * @param {Object} ubicacion  { lat, lng, precision }  OBLIGATORIO
+     * @param {string} requestId  ID único para idempotencia
      * @returns {Promise<Object>}
      */
-    checkIn(token, ubicacion) {
-        return this.call('checkIn', { token, ubicacion });
+    checkIn(token, ubicacion, requestId) {
+        return this.call('checkIn', { token, ubicacion, requestId });
     },
 
     /**
      * Registra salida.
      * @param {string} token
-     * @param {Object|null} ubicacion
+     * @param {Object} ubicacion  { lat, lng, precision }  OBLIGATORIO
+     * @param {string} requestId  ID único para idempotencia
      * @returns {Promise<Object>}
      */
-    checkOut(token, ubicacion) {
-        return this.call('checkOut', { token, ubicacion });
+    checkOut(token, ubicacion, requestId) {
+        return this.call('checkOut', { token, ubicacion, requestId });
     },
 
     /**
@@ -115,10 +117,11 @@ const Api = {
      * @param {string} token
      * @param {string} comentario
      * @param {Array<Object>} archivos  [{ nombre, tipo, tamano, base64 }]
+     * @param {string} requestId  ID único para idempotencia
      * @returns {Promise<Object>}
      */
-    subirEvidencia(token, comentario, archivos) {
-        return this.call('subirEvidencia', { token, comentario, archivos });
+    subirEvidencia(token, comentario, archivos, requestId) {
+        return this.call('subirEvidencia', { token, comentario, archivos, requestId });
     },
 
     /**

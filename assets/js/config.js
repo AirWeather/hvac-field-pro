@@ -23,17 +23,19 @@ const CONFIG = Object.freeze({
      * Modo de desarrollo
      * true  → usa datos mock (api.mock.js), sin backend
      * false → conecta con Apps Script real
-     *
-     * ⚠️ Poner en false ANTES de desplegar a producción.
      * -------------------------------------------------------- */
     USE_MOCK: false,
 
     /* ----------------------------------------------------------
      * Backend
-     * Pega aquí la URL del Web App de Apps Script.
-     * Formato esperado: https://script.google.com/macros/s/XXXX/exec
      * -------------------------------------------------------- */
-    API_URL: 'https://script.google.com/macros/s/AKfycbyAN7RiXRbGTha_IuEmIq9J0SLby1lZzTXiyZw0NxPx1RPGDcS0fV01G6RuNFcSFR0a/exec',
+    API_URL: 'https://script.google.com/macros/s/AKfycbxwRRgfe0mno42z3UmuXfGfIGJt59DhooJnHsS4z_bVgXEe33S367nSwrwbtX4Lqdg/exec',
+
+    /* ----------------------------------------------------------
+     * API key de CARTO (mapa)
+     * Obtén la tuya en: https://carto.com/basemaps/apikey
+     * -------------------------------------------------------- */
+    MAP_API_KEY: 'cb1_43nc_1_a4fae656bc4193805fd743e9',
 
     /* ----------------------------------------------------------
      * Claves de almacenamiento local (localStorage)
@@ -46,17 +48,18 @@ const CONFIG = Object.freeze({
      * Rutas del router (basadas en hash)
      * -------------------------------------------------------- */
     ROUTES: Object.freeze({
-    LOGIN:      '#/login',
-    DASHBOARD:  '#/dashboard',
-    CHECADOR:   '#/checador',
-    EVIDENCIAS: '#/evidencias',
-    SUPERVISOR: '#/supervisor'
-}),
+        LOGIN:      '#/login',
+        DASHBOARD:  '#/dashboard',
+        CHECADOR:   '#/checador',
+        EVIDENCIAS: '#/evidencias',
+        SUPERVISOR: '#/supervisor'
+    }),
+
     /* ----------------------------------------------------------
      * Reglas de archivos (evidencias)
      * -------------------------------------------------------- */
     FILES: Object.freeze({
-        MAX_SIZE_BYTES: 10 * 1024 * 1024, // 10 MB
+        MAX_SIZE_BYTES: 10 * 1024 * 1024,
         MAX_FILES:      5,
         ALLOWED_EXTENSIONS: Object.freeze([
             'jpg', 'jpeg', 'png', 'webp', 'heic',

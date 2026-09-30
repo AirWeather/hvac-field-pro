@@ -7,9 +7,13 @@
  *  - Input con ícono
  *  - Mensajes (error, éxito)
  *  - Spinner
+ *  - Overlay de carga (NUEVO)
  *  - Icon badge
  *  - File drop / file list
  *  - Listas
+ *  - Mapa y supervisión
+ *
+ * Paleta: ROJO + BLANCO
  * ============================================================ */
 
 
@@ -23,7 +27,7 @@
     justify-content: center;
     gap: var(--space-2);
     padding: 0.75rem 1.25rem;
-    min-height: 44px; /* Accesibilidad táctil */
+    min-height: 44px;
     border: 1px solid transparent;
     border-radius: var(--radius);
     font-family: inherit;
@@ -57,17 +61,17 @@
     transform: none;
 }
 
-/* --- Variantes de color --- */
+/* --- Variantes --- */
 
 .btn-primary {
     background: var(--color-primary);
     color: var(--color-text-inverse);
-    box-shadow: 0 1px 2px rgba(3, 105, 161, 0.25);
+    box-shadow: 0 1px 2px rgba(220, 38, 38, 0.25);
 }
 
 .btn-primary:hover:not(:disabled) {
     background: var(--color-primary-dark);
-    box-shadow: 0 4px 12px rgba(3, 105, 161, 0.25);
+    box-shadow: 0 4px 12px rgba(220, 38, 38, 0.30);
 }
 
 .btn-secondary {
@@ -98,7 +102,7 @@
 }
 
 .btn-danger:hover:not(:disabled) {
-    background: #b91c1c;
+    background: #991B1B;
 }
 
 /* --- Tamaños --- */
@@ -124,8 +128,6 @@
     width: 22px;
     height: 22px;
 }
-
-/* --- Modificadores --- */
 
 .btn-block {
     display: flex;
@@ -175,7 +177,7 @@ select {
     padding: 0.75rem 0.9rem;
     min-height: 48px;
     font-family: inherit;
-    font-size: var(--fs-base); /* ≥16px evita zoom en iOS */
+    font-size: var(--fs-base);
     color: var(--color-text);
     background: var(--color-surface);
     border: 1px solid var(--color-border-strong);
@@ -208,7 +210,7 @@ textarea:focus,
 select:focus {
     outline: none;
     border-color: var(--color-primary);
-    box-shadow: 0 0 0 3px rgba(3, 105, 161, 0.15);
+    box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
 input:invalid:not(:placeholder-shown),
@@ -266,20 +268,20 @@ textarea:invalid:not(:placeholder-shown) {
 
 .msg-error {
     background: var(--color-danger-soft);
-    color: #7f1d1d;
-    border-color: #fecaca;
+    color: #7F1D1D;
+    border-color: #FECACA;
 }
 
 .msg-success {
     background: var(--color-success-soft);
-    color: #14532d;
-    border-color: #bbf7d0;
+    color: #14532D;
+    border-color: #BBF7D0;
 }
 
 .msg-info {
-    background: var(--color-primary-soft);
-    color: var(--color-primary-dark);
-    border-color: #bae6fd;
+    background: var(--color-info-soft);
+    color: #1E40AF;
+    border-color: #BFDBFE;
 }
 
 
@@ -308,7 +310,81 @@ textarea:invalid:not(:placeholder-shown) {
 
 
 /* ============================================================
- * 6. ICON BADGE (circular, para login y otros)
+ * 5B. OVERLAY DE CARGA GLOBAL (NUEVO)
+ * ============================================================ */
+
+.loading-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(17, 24, 39, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: fadeIn 200ms ease;
+}
+
+.loading-overlay[hidden] {
+    display: none !important;
+}
+
+.loading-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-8) var(--space-6);
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    max-width: 320px;
+    width: calc(100% - var(--space-8));
+    text-align: center;
+    animation: scaleIn 250ms ease;
+}
+
+.loading-box .loading-spinner {
+    width: 56px;
+    height: 56px;
+    border: 4px solid var(--color-border);
+    border-top-color: var(--color-primary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.loading-message {
+    font-size: var(--fs-base);
+    font-weight: var(--fw-semibold);
+    color: var(--color-text);
+    margin: 0;
+}
+
+.loading-submessage {
+    font-size: var(--fs-xs);
+    color: var(--color-text-muted);
+    margin: 0;
+    min-height: 1.2em;
+}
+
+body.loading-active {
+    overflow: hidden;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes scaleIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to   { opacity: 1; transform: scale(1); }
+}
+
+
+/* ============================================================
+ * 6. ICON BADGE
  * ============================================================ */
 
 .icon-badge {
@@ -326,7 +402,7 @@ textarea:invalid:not(:placeholder-shown) {
 
 
 /* ============================================================
- * 7. FILE DROP (subida de archivos)
+ * 7. FILE DROP
  * ============================================================ */
 
 .file-drop {
@@ -374,8 +450,6 @@ textarea:invalid:not(:placeholder-shown) {
     color: var(--color-text-muted);
     line-height: var(--lh-base);
 }
-
-/* --- Lista de archivos seleccionados --- */
 
 .file-list {
     display: flex;
@@ -474,7 +548,7 @@ textarea:invalid:not(:placeholder-shown) {
 
 
 /* ============================================================
- * 9. DIVISORES Y SEPARADORES
+ * 9. DIVISORES
  * ============================================================ */
 
 .divider {
@@ -486,7 +560,7 @@ textarea:invalid:not(:placeholder-shown) {
 
 
 /* ============================================================
- * 10. BADGES / ETIQUETAS
+ * 10. BADGES
  * ============================================================ */
 
 .badge {
@@ -502,26 +576,27 @@ textarea:invalid:not(:placeholder-shown) {
 
 .badge-success {
     background: var(--color-success-soft);
-    color: #14532d;
+    color: #14532D;
 }
 
 .badge-danger {
     background: var(--color-danger-soft);
-    color: #7f1d1d;
+    color: #7F1D1D;
 }
 
 .badge-warning {
     background: var(--color-warning-soft);
-    color: #78350f;
+    color: #78350F;
 }
 
 .badge-info {
-    background: var(--color-primary-soft);
-    color: var(--color-primary-dark);
+    background: var(--color-info-soft);
+    color: #1E40AF;
 }
 
+
 /* ============================================================
- * MAPA Y SUPERVISIÓN
+ * 11. MAPA Y SUPERVISIÓN
  * ============================================================ */
 
 .card-summary {
@@ -673,7 +748,7 @@ textarea:invalid:not(:placeholder-shown) {
 
 .badge-trabajando {
     background: var(--color-success-soft);
-    color: #14532d;
+    color: #14532D;
 }
 
 .badge-termino {
@@ -686,7 +761,7 @@ textarea:invalid:not(:placeholder-shown) {
     color: var(--color-text-muted);
 }
 
-/* Pines personalizados del mapa */
+/* Pines del mapa */
 .marker-pin {
     width: 28px;
     height: 28px;

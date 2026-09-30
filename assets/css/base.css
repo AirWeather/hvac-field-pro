@@ -7,7 +7,7 @@
  *  - Tipografía base
  *  - Utilidades mínimas
  *
- * No contiene componentes ni layout.
+ * Paleta: ROJO + BLANCO
  * ============================================================ */
 
 
@@ -24,14 +24,14 @@
 }
 
 html {
-    -webkit-text-size-adjust: 100%;   /* Evita zoom automático en iOS */
+    -webkit-text-size-adjust: 100%;
     text-size-adjust: 100%;
-    -webkit-tap-highlight-color: transparent; /* Sin highlight azul al tocar en móvil */
+    -webkit-tap-highlight-color: transparent;
 }
 
 body {
     min-height: 100vh;
-    min-height: 100dvh; /* dvh maneja mejor la barra de móviles */
+    min-height: 100dvh;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -70,53 +70,53 @@ ul, ol {
 
 
 /* ============================================================
- * 2. VARIABLES (Design Tokens)
+ * 2. VARIABLES · Paleta ROJO + BLANCO
  * ============================================================ */
 
 :root {
 
-    /* ---------- Colores: marca HVAC ---------- */
-    --color-primary:        #0369a1;   /* Azul HVAC profundo */
-    --color-primary-dark:   #075985;
-    --color-primary-light:  #0ea5e9;
-    --color-primary-soft:   #e0f2fe;   /* Fondo de acentos suaves */
+    /* ---------- Marca: ROJO ---------- */
+    --color-primary:        #DC2626;   /* Rojo principal */
+    --color-primary-dark:   #B91C1C;   /* Rojo oscuro (hover) */
+    --color-primary-light:  #EF4444;   /* Rojo claro */
+    --color-primary-soft:   #FEE2E2;   /* Rojo muy claro (fondos suaves) */
 
-    --color-accent:         #f97316;   /* Naranja técnico */
-    --color-accent-dark:    #ea580c;
-    --color-accent-soft:    #ffedd5;
+    /* ---------- Superficies ---------- */
+    --color-bg:             #FFFFFF;   /* Fondo principal: blanco */
+    --color-surface:        #FFFFFF;   /* Cards, formularios */
+    --color-surface-alt:    #F9FAFB;   /* Superficies alternas (gris muy claro) */
+    --color-border:         #E5E7EB;   /* Bordes finos */
+    --color-border-strong:  #D1D5DB;   /* Bordes más marcados */
 
-    /* ---------- Colores: superficies y texto ---------- */
-    --color-bg:             #f1f5f9;   /* Fondo general */
-    --color-surface:        #ffffff;   /* Cards, formularios */
-    --color-surface-alt:    #f8fafc;   /* Superficies alternas */
-    --color-border:         #e2e8f0;
-    --color-border-strong:  #cbd5e1;
-
-    --color-text:           #0f172a;   /* Texto principal */
-    --color-text-muted:     #64748b;   /* Texto secundario */
-    --color-text-inverse:   #ffffff;
+    /* ---------- Texto ---------- */
+    --color-text:           #111827;   /* Texto principal */
+    --color-text-muted:     #6B7280;   /* Texto secundario */
+    --color-text-light:     #9CA3AF;   /* Texto terciario */
+    --color-text-inverse:   #FFFFFF;   /* Texto sobre fondos oscuros */
 
     /* ---------- Estados ---------- */
-    --color-success:        #16a34a;
-    --color-success-soft:   #dcfce7;
-    --color-danger:         #dc2626;
-    --color-danger-soft:    #fee2e2;
-    --color-warning:        #d97706;
-    --color-warning-soft:   #fef3c7;
+    --color-success:        #10B981;
+    --color-success-soft:   #D1FAE5;
+    --color-danger:         #DC2626;
+    --color-danger-soft:    #FEE2E2;
+    --color-warning:        #F59E0B;
+    --color-warning-soft:   #FEF3C7;
+    --color-info:           #3B82F6;
+    --color-info-soft:      #DBEAFE;
 
     /* ---------- Tipografía ---------- */
-    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto,
+    --font-sans: 'Inter', system-ui, -apple-system, "Segoe UI", Roboto,
                  "Helvetica Neue", Arial, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas,
                  "Liberation Mono", monospace;
 
-    --fs-xs:   0.75rem;   /* 12px */
-    --fs-sm:   0.875rem;  /* 14px */
-    --fs-base: 1rem;      /* 16px — mínimo para evitar zoom en iOS */
-    --fs-lg:   1.125rem;  /* 18px */
-    --fs-xl:   1.25rem;   /* 20px */
-    --fs-2xl:  1.5rem;    /* 24px */
-    --fs-3xl:  1.875rem;  /* 30px */
+    --fs-xs:   0.75rem;
+    --fs-sm:   0.875rem;
+    --fs-base: 1rem;
+    --fs-lg:   1.125rem;
+    --fs-xl:   1.25rem;
+    --fs-2xl:  1.5rem;
+    --fs-3xl:  1.875rem;
 
     --fw-normal:   400;
     --fw-medium:   500;
@@ -127,16 +127,16 @@ ul, ol {
     --lh-base:  1.5;
     --lh-loose: 1.7;
 
-    /* ---------- Espaciados (escala 4px) ---------- */
-    --space-1:  0.25rem;   /* 4px  */
-    --space-2:  0.5rem;    /* 8px  */
-    --space-3:  0.75rem;   /* 12px */
-    --space-4:  1rem;      /* 16px */
-    --space-5:  1.25rem;   /* 20px */
-    --space-6:  1.5rem;    /* 24px */
-    --space-8:  2rem;      /* 32px */
-    --space-10: 2.5rem;    /* 40px */
-    --space-12: 3rem;      /* 48px */
+    /* ---------- Espaciados ---------- */
+    --space-1:  0.25rem;
+    --space-2:  0.5rem;
+    --space-3:  0.75rem;
+    --space-4:  1rem;
+    --space-5:  1.25rem;
+    --space-6:  1.5rem;
+    --space-8:  2rem;
+    --space-10: 2.5rem;
+    --space-12: 3rem;
 
     /* ---------- Radios ---------- */
     --radius-sm: 6px;
@@ -146,12 +146,12 @@ ul, ol {
     --radius-pill: 999px;
 
     /* ---------- Sombras ---------- */
-    --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
-    --shadow:    0 2px 8px -2px rgba(15, 23, 42, 0.08),
-                 0 4px 12px -4px rgba(15, 23, 42, 0.06);
-    --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.10),
-                 0 8px 24px -6px rgba(15, 23, 42, 0.08);
-    --shadow-lg: 0 10px 30px -10px rgba(15, 23, 42, 0.18);
+    --shadow-sm: 0 1px 2px 0 rgba(17, 24, 39, 0.05);
+    --shadow:    0 2px 8px -2px rgba(17, 24, 39, 0.08),
+                 0 4px 12px -4px rgba(17, 24, 39, 0.06);
+    --shadow-md: 0 4px 12px -2px rgba(17, 24, 39, 0.10),
+                 0 8px 24px -6px rgba(17, 24, 39, 0.08);
+    --shadow-lg: 0 10px 30px -10px rgba(17, 24, 39, 0.18);
 
     /* ---------- Transiciones ---------- */
     --transition-fast: 120ms ease;
@@ -218,7 +218,6 @@ code, pre {
     border-radius: var(--radius-sm);
 }
 
-/* Desactiva outline por defecto, deja solo el de :focus-visible */
 :focus {
     outline: none;
 }
@@ -250,7 +249,7 @@ code, pre {
 
 
 /* ============================================================
- * 6. SCROLLBAR SUTIL (WebKit)
+ * 6. SCROLLBAR SUTIL
  * ============================================================ */
 
 ::-webkit-scrollbar {
@@ -269,7 +268,7 @@ code, pre {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: var(--color-text-muted);
+    background: var(--color-primary);
 }
 
 
@@ -277,7 +276,6 @@ code, pre {
  * 7. PREFERENCIAS DEL USUARIO
  * ============================================================ */
 
-/* Respeta "reducir movimiento" del sistema operativo */
 @media (prefers-reduced-motion: reduce) {
     *,
     *::before,

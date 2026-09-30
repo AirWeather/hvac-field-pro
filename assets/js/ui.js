@@ -100,6 +100,46 @@ const UI = {
 
 
     /* ==========================================================
+     * OVERLAY DE CARGA GLOBAL
+     * ======================================================== */
+
+    /**
+     * Muestra el overlay de carga.
+     * @param {string} mensaje       Texto principal
+     * @param {string} [submensaje]  Texto secundario (opcional)
+     */
+    showLoading(mensaje = 'Procesando...', submensaje = '') {
+        const overlay = document.getElementById('loading-overlay');
+        if (!overlay) return;
+
+        this.setText('loading-message', mensaje);
+        this.setText('loading-submessage', submensaje);
+        overlay.hidden = false;
+        document.body.classList.add('loading-active');
+    },
+
+    /**
+     * Cambia el mensaje del overlay sin cerrarlo.
+     * @param {string} mensaje
+     * @param {string} [submensaje]
+     */
+    updateLoading(mensaje, submensaje = '') {
+        this.setText('loading-message', mensaje);
+        this.setText('loading-submessage', submensaje);
+    },
+
+    /**
+     * Oculta el overlay de carga.
+     */
+    hideLoading() {
+        const overlay = document.getElementById('loading-overlay');
+        if (!overlay) return;
+        overlay.hidden = true;
+        document.body.classList.remove('loading-active');
+    },
+
+
+    /* ==========================================================
      * LISTA DE ARCHIVOS
      * ======================================================== */
 
@@ -149,10 +189,6 @@ const UI = {
      * SUPERVISIÓN
      * ======================================================== */
 
-    /**
-     * Renderiza el dashboard de supervisor.
-     * @param {Object} data  { actualizado, total, tecnicos }
-     */
     renderTecnicosEstado(data) {
         if (!data || !Array.isArray(data.tecnicos)) return;
 
