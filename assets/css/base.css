@@ -76,23 +76,23 @@ ul, ol {
 :root {
 
     /* ---------- Marca: ROJO ---------- */
-    --color-primary:        #DC2626;   /* Rojo principal */
-    --color-primary-dark:   #B91C1C;   /* Rojo oscuro (hover) */
-    --color-primary-light:  #EF4444;   /* Rojo claro */
-    --color-primary-soft:   #FEE2E2;   /* Rojo muy claro (fondos suaves) */
+    --color-primary:        #DC2626;
+    --color-primary-dark:   #B91C1C;
+    --color-primary-light:  #EF4444;
+    --color-primary-soft:   #FEE2E2;
 
     /* ---------- Superficies ---------- */
-    --color-bg:             #FFFFFF;   /* Fondo principal: blanco */
-    --color-surface:        #FFFFFF;   /* Cards, formularios */
-    --color-surface-alt:    #F9FAFB;   /* Superficies alternas (gris muy claro) */
-    --color-border:         #E5E7EB;   /* Bordes finos */
-    --color-border-strong:  #D1D5DB;   /* Bordes más marcados */
+    --color-bg:             #FFFFFF;
+    --color-surface:        #FFFFFF;
+    --color-surface-alt:    #F9FAFB;
+    --color-border:         #E5E7EB;
+    --color-border-strong:  #D1D5DB;
 
     /* ---------- Texto ---------- */
-    --color-text:           #111827;   /* Texto principal */
-    --color-text-muted:     #6B7280;   /* Texto secundario */
-    --color-text-light:     #9CA3AF;   /* Texto terciario */
-    --color-text-inverse:   #FFFFFF;   /* Texto sobre fondos oscuros */
+    --color-text:           #111827;
+    --color-text-muted:     #6B7280;
+    --color-text-light:     #9CA3AF;
+    --color-text-inverse:   #FFFFFF;
 
     /* ---------- Estados ---------- */
     --color-success:        #10B981;
@@ -249,7 +249,23 @@ code, pre {
 
 
 /* ============================================================
- * 6. SCROLLBAR SUTIL
+ * 6. FORZAR OCULTAMIENTO CON [hidden]
+ * ------------------------------------------------------------
+ * Cualquier elemento con el atributo `hidden` debe ocultarse,
+ * sin importar qué `display` tenga definido en otras reglas.
+ *
+ * ⚠️ IMPORTANTE: sin esta regla, componentes como .menu-card
+ * (que usan display: flex) SOBRESCRIBEN el atributo `hidden`
+ * del navegador, mostrándose aunque el JS ponga hidden=true.
+ * ============================================================ */
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* ============================================================
+ * 7. SCROLLBAR SUTIL
  * ============================================================ */
 
 ::-webkit-scrollbar {
@@ -273,7 +289,7 @@ code, pre {
 
 
 /* ============================================================
- * 7. PREFERENCIAS DEL USUARIO
+ * 8. PREFERENCIAS DEL USUARIO
  * ============================================================ */
 
 @media (prefers-reduced-motion: reduce) {
